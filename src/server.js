@@ -1,20 +1,101 @@
 import Hapi from 'hapi';
+import Knex from '../knexfile';
+import jwt from 'jsonwebtoken';
+const db = require( 'knex' )(Knex.development);
 //create a new server instance
 const server = new Hapi.Server();
 
 server.connection( {
     port: 8080
 });
+// .register(...) registers a module within the instance of the API. The callback is then used to tell that the loaded module will be used as an authentication strategy. 
+server.register( require( 'hapi-auth-jwt' ), ( err ) => {
+    server.auth.strategy( 'token', 'jwt', {
+
+        key: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
+
+        verifyOptions: {
+     algorithms: [ 'HS256' ],
+        }
+
+    } );
+
+} );
 
 server.route({
 
     method: 'GET',
-    path: '/hello',
-    handler: ( request, reply ) => {
-        reply( 'Hello World!' );
+    path: '/women',
+        handler: ( request, reply ) => {
+
+        const getOperation = db( 'women' ).select( '*' ).then( ( results ) => {
+
+            // The second one is just a redundant check, but let's be sure of everything.
+            if( !results || results.length === 0 ) {
+                reply({
+                    error: true,
+                    errMessage: 'no public women found',
+
+                });
+
+            }
+
+            reply( {
+
+                dataCount: results.length,
+                data: results,
+
+            } );
+
+        } ).catch( ( err ) => {
+
+            reply( 'server-side error' );
+
+        } );
+
     }
 
-});
+} );
+
+server.route( {
+
+    path: '/users',
+    method: 'POST',
+    handler: ( request, reply ) => {
+        // This is a ES6 standard
+        const { username, password } = request.payload;
+
+        return db( 'users' )
+        .where("username", username )
+        .select( 'username', 'password' )
+        .then( ( results ) => {
+            const user = results[0];
+            console.log(user)
+
+    const token = jwt.sign( {
+        // You can have anything you want here. ANYTHING. As we'll see in a bit, this decoded token is passed onto a request handler.
+        username,
+        scope: user.username,
+
+    }, 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy', {
+
+        algorithm: 'HS256',
+        expiresIn: '1h',
+
+    });
+
+    return reply({token, scope: user.name});
+
+        }).catch( ( err ) => {
+
+            reply(err);
+
+        } );
+
+    }
+
+} );
+
 server.start(err => {
 
     if (err) {

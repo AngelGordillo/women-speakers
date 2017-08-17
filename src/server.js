@@ -3,6 +3,7 @@ import Knex from '../knexfile';
 import jwt from 'jsonwebtoken';
 import routes from './routes'
 import GUID from 'node-uuid';
+
 const db = require( 'knex' )(Knex.development);
 const guid = GUID.v4();
 //create a new server instance
@@ -19,22 +20,21 @@ server.register( require( 'hapi-auth-jwt' ), ( err ) => {
         key: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
 
         verifyOptions: {
-           algorithms: [ 'HS256' ],
-       }
+         algorithms: [ 'HS256' ],
+     }
 
-   } );
-    /* DOESN WORK ??????
+ } );
+    
      // We move this in the callback because we want to make sure that the authentication module has loaded before we attach the routes. It will throw an error, otherwise. 
-      routes.forEach( ( route ) => {
+     routes.forEach( ( route ) => {
 
         console.log( `attaching ${ route.path }` );
         server.route( route );
 
-    } );*/
+    } );
 
-} );
+ } );
 
-//SHOW WOMEN
 server.route({
 
     method: 'GET',
@@ -83,9 +83,9 @@ server.route( {
         .select( 'username', 'password' )
         .then( ( results ) => {
             const user = results[0];
-           if( user.password === password && user.username === username ){
+            if( user.password === password && user.username === username ){
 
-            const token = jwt.sign( {
+                const token = jwt.sign( {
             // You can have anything you want here. ANYTHING. As we'll see in a bit, this decoded token is passed onto a request handler.
             username,
             scope: user.username,
@@ -97,23 +97,16 @@ server.route( {
 
         });
 
-            return reply({token,scope: user.username});
-        }else{
-            reply('wrong username or password');
-        }
+                return reply({token,scope: user.username});
+            }else{
+                reply('wrong username or password');
+            }
 
-    });
-
-
-
-
-
+        });
     }
-
-
-
-
 } );
+
+
 
 server.start(err => {
 
@@ -128,40 +121,7 @@ server.start(err => {
     console.log( `Server started at ${ server.info.uri }` );
 
 });
-//  CREATE A WOMEN
-server.route( {
-
-    path: '/women',
-    method: 'POST',
-
-    handler: ( request, reply ) => {
-
-        const { women } = request.payload;
-
-    }
-
-} );
 
 
 
- Knex( 'women' ).insert( {
 
-    owner: request.auth.credentials.scope,
-    name: women.name,
-    picture_url: bird.picture_url,
-    guid,
-
-} ).then( ( res ) => {
-
-    reply( {
-
-        data: guid,
-        message: 'successfully created bird'
-
-    } );
-
-} ).catch( ( err ) => {
-
-    reply( 'server-side error' );
-
-} );

@@ -1,0 +1,10 @@
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6InRlc3QiLCJhZG1pbiI6dHJ1ZX0.mcqqhQfejEN7oOt94qj2BBrIaxYREcJtub27bM_6cbY
+{
+  "alg":"HS256",
+  "typ":"JWT"
+}
+{
+  "sub": "1234567890",
+  "name": "test",
+  "admin": true
+}

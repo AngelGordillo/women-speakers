@@ -8,7 +8,10 @@ exports.seed = function(knex, Promise) {
              {name: 'testWoman1',  
               email: 'angel.gordillodelgado@ext.entsoe.eu',
               picture_url: 'http://pngimg.com/upload/pigeon_PNG3423.png',
-              topic: 'network',  linkedin:'default', isPublic:'false', owner:1
+              topic: 'network', 
+              linkedin:'default',
+              isPublic:'false', 
+              owner:1
             }
       ]);
     });

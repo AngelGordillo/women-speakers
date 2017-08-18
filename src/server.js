@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import routes from './routes'
 import GUID from 'node-uuid';
 const db = require( 'knex' )(Knex.development);
-const guid = GUID.v4();
 //create a new server instance
 const server = new Hapi.Server();
 
@@ -23,52 +22,19 @@ server.register( require( 'hapi-auth-jwt' ), ( err ) => {
        }
 
    } );
-    /* DOESN WORK ??????
+   
      // We move this in the callback because we want to make sure that the authentication module has loaded before we attach the routes. It will throw an error, otherwise. 
       routes.forEach( ( route ) => {
 
         console.log( `attaching ${ route.path }` );
         server.route( route );
 
-    } );*/
+    } );
 
 } );
 
 //SHOW WOMEN
-server.route({
 
-    method: 'GET',
-    path: '/women',
-    handler: ( request, reply ) => {
-
-        const getOperation = db( 'women' ).select( '*' ).then( ( results ) => {
-
-            // The second one is just a redundant check, but let's be sure of everything.
-            if( !results || results.length === 0 ) {
-                reply({
-                    error: true,
-                    errMessage: 'no public women found',
-
-                });
-
-            }
-
-            reply( {
-
-                dataCount: results.length,
-                data: results,
-
-            } );
-
-        } ).catch( ( err ) => {
-
-            reply( 'server-side error' );
-
-        } );
-
-    }
-
-} );
 
 server.route( {
 
@@ -104,10 +70,6 @@ server.route( {
 
     });
 
-
-
-
-
     }
 
 
@@ -128,40 +90,3 @@ server.start(err => {
     console.log( `Server started at ${ server.info.uri }` );
 
 });
-//  CREATE A WOMEN
-server.route( {
-
-    path: '/women',
-    method: 'POST',
-
-    handler: ( request, reply ) => {
-
-        const { women } = request.payload;
-
-    }
-
-} );
-
-
-
- Knex( 'women' ).insert( {
-
-    owner: request.auth.credentials.scope,
-    name: women.name,
-    picture_url: bird.picture_url,
-    guid,
-
-} ).then( ( res ) => {
-
-    reply( {
-
-        data: guid,
-        message: 'successfully created bird'
-
-    } );
-
-} ).catch( ( err ) => {
-
-    reply( 'server-side error' );
-
-} );

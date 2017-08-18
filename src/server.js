@@ -8,7 +8,8 @@ const db = require( 'knex' )(Knex.development);
 const server = new Hapi.Server();
 
 server.connection( {
-    port: 8080
+    port: 8080,
+    routes: { cors: true }
 });
 // .register(...) registers a module within the instance of the API. The callback is then used to tell that the loaded module will be used as an authentication strategy. 
 server.register( require( 'hapi-auth-jwt' ), ( err ) => {

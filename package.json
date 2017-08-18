@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/AngelGordillo/women-speakers.git%22/issues"
   },
+  "headers":{ "Access-Control-Allow-Origin": "*", 
+            "Access-Control-Allow-Methods" :["PUT", "GET", "POST"] 
+          },
   "homepage": "https://github.com/AngelGordillo/women-speakers.git%22#readme",
   "dependencies": {
     "angular": "^1.6.5",

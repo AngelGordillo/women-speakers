@@ -6,7 +6,7 @@ const routes = [
 
     {
 
-        path: '/{women}',
+        path: '/women',
         method: 'GET',
         handler: ( request, reply ) => {
 
@@ -40,69 +40,7 @@ const routes = [
 
     },
 
-    {
-
-        path: '/auth',
-        method: 'POST',
-        handler: ( request, reply ) => {
-
-            const { username, password } = request.payload;
-
-            db( 'users' ).where( {
-
-                username,
-
-            } ).select( 'password', 'guid' ).then( ( [ user ] ) => {
-
-                if( !user ) {
-
-                    reply( {
-
-                        error: true,
-                        errMessage: 'the specified user was not found',
-
-                    } );
-
-                    return;
-
-                }
-
-                if( user.password === password ) {
-
-                    const token = jwt.sign( {
-
-                        username,
-                        scope: user.guid,
-
-                    }, 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy', {
-
-                        algorithm: 'HS256',
-                        expiresIn: '1h',
-
-                    } );
-
-                    reply( {
-
-                        token,
-                        scope: user.guid,
-
-                    } );
-
-                } else {
-
-                    reply( 'incorrect password' );
-
-                }
-
-            } ).catch( ( err ) => {
-
-                reply( 'server-side error' );
-
-            } );
-
-        }
-
-    },
+   
 
     {
 

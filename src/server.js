@@ -7,11 +7,21 @@ import GUID from 'node-uuid';
 const db = require( 'knex' )(Knex.development);
 const guid = GUID.v4();
 //create a new server instance
-const server = new Hapi.Server();
 
-server.connection( {
-    port: 8080
+
+const server = new Hapi.Server({
+  connections: {
+    routes: {
+        //cors: true
+      cors: {
+        origin: ['*'],
+        additionalHeaders: ['x-requested-with']
+      }
+    }
+  }
 });
+
+server.connection({ port: process.env.PORT || 8080, host: 'localhost' });
 // .register(...) registers a module within the instance of the API. The callback is then used to tell that the loaded module will be used as an authentication strategy. 
 server.register( require( 'hapi-auth-jwt' ), ( err ) => {
 
@@ -35,40 +45,7 @@ server.register( require( 'hapi-auth-jwt' ), ( err ) => {
 
  } );
 
-server.route({
 
-    method: 'GET',
-    path: '/women',
-    handler: ( request, reply ) => {
-
-        const getOperation = db( 'women' ).select( '*' ).then( ( results ) => {
-
-            // The second one is just a redundant check, but let's be sure of everything.
-            if( !results || results.length === 0 ) {
-                reply({
-                    error: true,
-                    errMessage: 'no public women found',
-
-                });
-
-            }
-
-            reply( {
-
-                dataCount: results.length,
-                data: results,
-
-            } );
-
-        } ).catch( ( err ) => {
-
-            reply( 'server-side error' );
-
-        } );
-
-    }
-
-} );
 
 server.route( {
 

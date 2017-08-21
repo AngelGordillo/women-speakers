@@ -10,7 +10,7 @@ exports.seed = function(knex, Promise) {
               picture_url: 'http://pngimg.com/upload/pigeon_PNG3423.png',
               topic: 'network', 
               linkedin:'default',
-              isPublic:'false', 
+              isPublic: false, 
               owner:1
             }
       ]);

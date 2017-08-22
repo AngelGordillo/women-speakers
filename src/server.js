@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import routes from './routes'
 import GUID from 'node-uuid';
 
-const db = require( 'knex' )(Knex.development);
 const guid = GUID.v4();
 
 

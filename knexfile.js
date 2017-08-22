@@ -7,6 +7,7 @@ module.exports = {
 		migrations: { tableName: 'knex_migrations' },
 		seeds: { tableName: './seeds' },
 		client: 'pg',
+		debug: true,
 		connection: process.env.DATABASE_URL || 'pg://angel1:123456@localhost:5432/women',
 		searchPath: 'knex,public'
        /* client: 'sqlite3',

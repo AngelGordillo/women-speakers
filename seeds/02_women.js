@@ -1,7 +1,9 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('women').del()
+ return knex('users').select('id').limit(1)
+  .then((res) => {
+    return knex('women').del()
     .then(function () {
       // Inserts seed entries
       return knex('women').insert([
@@ -11,8 +13,10 @@ exports.seed = function(knex, Promise) {
               topic: 'network', 
               linkedin:'default',
               isPublic: false, 
-              owner:1
+              owner: res[0]['id']
             }
       ]);
-    });
+    }); 
+  })
+  
 };

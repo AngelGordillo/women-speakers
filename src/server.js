@@ -6,44 +6,37 @@ import GUID from 'node-uuid';
 
 const db = require( 'knex' )(Knex.development);
 const guid = GUID.v4();
-//create a new server instance
+
 
 
 const server = new Hapi.Server({
   connections: {
     routes: {
         //cors: true
-      cors: {
-        origin: ['*'],
-        additionalHeaders: ['x-requested-with']
-      }
+        cors: {
+            origin: ['*'],
+            additionalHeaders: ['x-requested-with']
+        }
     }
-  }
+}
 });
 
+
+
 server.connection({ port: process.env.PORT || 8080, host: 'localhost' });
-// .register(...) registers a module within the instance of the API. The callback is then used to tell that the loaded module will be used as an authentication strategy. 
+
 server.register( require( 'hapi-auth-jwt' ), ( err ) => {
-
     server.auth.strategy( 'token', 'jwt', {
-
         key: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
-
         verifyOptions: {
-         algorithms: [ 'HS256' ],
-     }
-
- } );
-    
-     // We move this in the callback because we want to make sure that the authentication module has loaded before we attach the routes. It will throw an error, otherwise. 
-     routes.forEach( ( route ) => {
-
+           algorithms: [ 'HS256' ],
+       }
+   } );  
+    routes.forEach( ( route ) => {
         console.log( `attaching ${ route.path }` );
         server.route( route );
-
     } );
-
- } );
+} );
 
 
 

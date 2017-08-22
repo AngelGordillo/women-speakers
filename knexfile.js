@@ -15,6 +15,7 @@ module.exports = {
 	        }
 
     }
+    process.exit();
 /*	development: {
         client: 'pg',
         debug: true,

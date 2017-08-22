@@ -8,7 +8,7 @@ const db = require( 'knex' )(Knex.development);
 const guid = GUID.v4();
 
 
-
+console.log(process.env.DATABASE_URL);
 const server = new Hapi.Server({
   connections: {
     routes: {

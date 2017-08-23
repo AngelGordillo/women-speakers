@@ -231,7 +231,7 @@ const routes = [
                 res: res,
                 message: 'successfully updated women'
 
-            } ).redirect('https://' + request.originalPath);;
+            } );
 
         } ).catch( ( err ) => {
 

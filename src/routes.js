@@ -216,7 +216,7 @@ const routes = [
         
         let q = db( 'women' ).update( {
 
-           isPublic: true,
+           isPublic: women.isPublic,
 
         } ).where( {
 

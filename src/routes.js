@@ -167,7 +167,7 @@ const routes = [
     handler: ( request, reply ) => {
 
         const { id } = request.params;
-        const women  = request.payload || {};
+        const women  = request.query || {};
         // console.log(request.query)
         //console.log("payload: ", women, women.hasOwnProperty('isPublic'))
         //console.log("women", women, women.hasOwnProperty('isPublic'))

@@ -175,13 +175,15 @@ const routes = [
             return reply(Boom.badRequest('bad'));
         }
         
-        let q = db( 'women' ).update( {
-
-           isPublic: true,
-
-        } ).where( {
+        let q = db( 'women' ).where( {
 
             id: id,
+
+        } )
+
+        .update( {
+
+           isPublic: true,
 
         } )
         console.log(q.toString())

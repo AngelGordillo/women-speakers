@@ -183,7 +183,7 @@ const routes = [
 
         .update( {
 
-           isPublic: true,
+           isPublic: women.isPublic,
 
         } )
         console.log(q.toString())
@@ -194,7 +194,7 @@ const routes = [
                 res: res,
                 message: 'successfully updated women'
 
-            } ).redirect('https://' + request.originalPath);
+            } ).redirect('https://' + request.originalPath);//dont send any response but works
 
         } ).catch( ( err ) => {
 

@@ -183,7 +183,7 @@ const routes = [
 
         .update( {
 
-           isPublic: women.isPublic,
+           isPublic: women.isPublic === "true" ? true : false,
 
         } )
         .returning('id')

@@ -171,7 +171,7 @@ const routes = [
         // console.log(request.query)
         //console.log("payload: ", women, women.hasOwnProperty('isPublic'))
         //console.log("women", women, women.hasOwnProperty('isPublic'))
-        if (!women.hasOwnProperty('isPublic')) {
+        if (!JSON.parse(women).hasOwnProperty('isPublic')) {
             return reply(Boom.badRequest('bad'));
         }
         

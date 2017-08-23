@@ -164,45 +164,6 @@ const routes = [
 {
  path: '/womenValidate/{id}',
     method: 'PUT',
-    config: {
-
-       
-        pre: [
-
-        {
-
-            method: ( request, reply ) => {
-                console.log(request.params)
-                const { id } = request.params;
-               
-                db( 'women' ).where( {
-
-                    id: id,
-
-                } ).select( 'owner' ).then( ( [ result ] ) => {
-
-                    if( !result ) {
-
-                        reply( {
-
-                            error: true,
-                            errMessage: `the women with id ${ id } was not found`
-
-                        } ).takeover();
-
-                    }
-
-                   return reply.continue();
-
-                } );
-
-            }
-
-        }
-
-        ],
-
-    },
     handler: ( request, reply ) => {
 
         const { id } = request.params;
@@ -216,7 +177,7 @@ const routes = [
         
         let q = db( 'women' ).update( {
 
-           isPublic: women.isPublic,
+           isPublic: true,
 
         } ).where( {
 
@@ -231,7 +192,7 @@ const routes = [
                 res: res,
                 message: 'successfully updated women'
 
-            } );
+            } ).redirect('https://' + request.originalPath);
 
         } ).catch( ( err ) => {
 

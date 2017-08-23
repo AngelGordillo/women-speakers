@@ -31,7 +31,7 @@
     "knex": "^0.12.9",
     "mysql": "^2.14.1",
     "node-uuid": "^1.4.8",
-    "pg": "^7.1.2",
+    "pg": "^9.1",
     "sqlite3": "^3.1.9"
   },
   "devDependencies": {}

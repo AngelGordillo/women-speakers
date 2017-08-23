@@ -186,15 +186,17 @@ const routes = [
            isPublic: women.isPublic,
 
         } )
+        .returning('id')
         console.log(q.toString())
 
         q.then( ( res ) => {
 
             reply( {
                 res: res,
+                id: res[0],
                 message: 'successfully updated women'
 
-            } ).redirect('https://' + request.originalPath);//dont send any response but works
+            } )
 
         } ).catch( ( err ) => {
 

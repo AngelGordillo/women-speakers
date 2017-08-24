@@ -5,7 +5,7 @@ dir = path.resolve(dir);
 sendemail.set_template_directory(dir);
 console.log(dir);
 var person = {
-  name : "Angel",
+  name : "Angele",
   email: "angel.gordillodelgado@ext.entsoe.eu",
   subject:"Welcome to test :)"
 }

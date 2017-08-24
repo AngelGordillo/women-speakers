@@ -3,7 +3,7 @@ import Knex from '../knexfile';
 import jwt from 'jsonwebtoken';
 import routes from './routes'
 import GUID from 'node-uuid';
-
+import email from './email';
 const guid = GUID.v4();
 
 //console.log(process.env.DATABASE_URL+ `?ssl=true` );
@@ -21,7 +21,11 @@ const server = new Hapi.Server({
     }
 }
 });
-
+email('welcome', person, function(error, result){
+              console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
+              console.log(result);
+              console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
+})
 
 
 server.connection({ port: process.env.PORT || 8080});

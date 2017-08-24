@@ -1,0 +1,5 @@
+
+Hi {{name}}!
+
+Thanks so much for joining us to alpha test dwyl (Do What You Love),
+we’re excited to have you on board!

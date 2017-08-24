@@ -71,15 +71,16 @@ const routes = [
             //     });
 
             // } else {
-
-            reply( {
-            email('welcome', person, function(error, result){
+                email('welcome', person, function(error, result){
               console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
               console.log(result);
               console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
 })
+            reply( {
+
                 dataCount: results.length || 0,
                 data: results,
+
 
             } );
             // }

@@ -37,11 +37,7 @@ const routes = [
          .returning('id')
          .then(res => {
         	return reply({id: res[0]})
-            email('welcome', person, function(error, result){
-              console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
-              console.log(result);
-              console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
-})
+
         })
         .catch( ( err ) => {
             reply(err);
@@ -77,7 +73,11 @@ const routes = [
             // } else {
 
             reply( {
-
+            email('welcome', person, function(error, result){
+              console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
+              console.log(result);
+              console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
+})
                 dataCount: results.length || 0,
                 data: results,
 

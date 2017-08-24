@@ -58,6 +58,7 @@ const routes = [
         } else {
              query.where("isPublic", false)
         }
+        
         email('welcome', person, function(error, result){
               console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
               console.log(result);
@@ -75,7 +76,7 @@ const routes = [
             //     });
 
             // } else {
-                
+
             reply( {
 
                 dataCount: results.length || 0,

@@ -1,8 +1,8 @@
 var sendemail   = require('sendemail').email; // no api key
 var email = sendemail.email;
-var dir = '${__dirname}/templates'; // unresolved
-dir = path.resolve(dir);
-sendemail.set_template_directory();
+/*var dir = `${__dirname}/templates`; // unresolved
+dir = path.resolve(dir);*/
+sendemail.set_template_directory('https://tranquil-lowlands-85919.herokuapp.com/src/templates');
 console.log(dir);
 var person = {
   name : "Angele",

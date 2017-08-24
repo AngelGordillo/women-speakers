@@ -2,10 +2,10 @@
   "name": "women-speakers",
   "version": "1.0.0",
   "description": "new database from women speakers",
-  "main": "index.js",
+  "main": "bootstrap.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node bootstrap.js"
+    "start": "nf start"
   },
   "repository": {
     "type": "git",
@@ -37,5 +37,7 @@
     "sendemail": "^3.3.0",
     "sqlite3": "^3.1.9"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "foreman": "^2.0.0"
+  }
 }

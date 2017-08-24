@@ -5,6 +5,21 @@ import Boom from 'boom';
 const db = require( 'knex' )(Knex.development);
 
 
+var path    = require('path');
+var nodemailer = require('nodemailer');
+var sgTransport = require('nodemailer-sendgrid-transport');
+
+// username + password
+var options = {
+    auth: {
+        api_user: process.env.SENDGRID_USERNAME,
+        api_key: process.env.SENDGRID_PASSWORD
+    }
+}
+    console.log(options)
+var mailer = nodemailer.createTransport(sgTransport(options));
+
+
 // The idea here is simple: export an array which can be then iterated over and each route can be attached. 
 const routes = [
 {
@@ -59,31 +74,59 @@ const routes = [
              query.where("isPublic", false)
         }
 
+        var email = {
+                    to: ['colin.broderick@entsoe.eu'],
+                    from: 'agordillodelgado@hotmail.com',
+                    subject: 'Hi there',
+                    text: 'Awesome sauce',
+                    html: '<b>Awesome sauce</b>'
+                };
+
+      let mailPromise = new Promise((resolve, reject) => {
+         mailer.sendMail(email).then((err,res) => {
+            if (err) { 
+                console.log(err) 
+                return reject(err);
+            }
+            resolve(res);
+        })
         
-        console.log(query.toString())
-        const getOperation = query.then( ( results ) => {
+        });
 
-            // The second one is just a redundant check, but let's be sure of everything.
-            // if( !results || results.length === 0 ) {
-            //     reply({
-            //         error: true,
-            //         errMessage: 'no public women found',
+      return mailPromise
+            // catch on the other side
+            .then((success) => {
 
-            //     });
+                console.log('mailPromise success', success);
+                return reply(success);
+            })
+       
+        // console.log(query.toString())
+        // const getOperation = query.then( ( results ) => {
 
-            // } else {
+        //     // The second one is just a redundant check, but let's be sure of everything.
+        //     // if( !results || results.length === 0 ) {
+        //     //     reply({
+        //     //         error: true,
+        //     //         errMessage: 'no public women found',
 
-            reply( {
+        //     //     });
 
-                dataCount: results.length || 0,
-                data: results,
+        //     // } else {
+                
+
+        //     // reply( {
+
+        //     //     dataCount: results.length || 0,
+        //     //     data: results,
 
 
-            } );
-            // }
-        } ).catch( ( err ) => {
+        //     // } );
+        //     // }
+        // } )
+        .catch( ( err ) => {
 
-            reply( 'server-side error' );
+            reply( 'server-side error', err );
 
         } );
 

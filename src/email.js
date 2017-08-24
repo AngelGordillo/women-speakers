@@ -1,17 +1,35 @@
-var sendemail   = require('sendemail').email; // no api key
-var email = sendemail.email;
-var dir = __dirname + 'templates'; // unresolved
-dir = path.resolve(dir);
-sendemail.set_template_directory(dir);
-console.log(dir);
-var person = {
-  name : "Angele",
-  email: "angel.gordillodelgado@ext.entsoe.eu",
-  subject:"Welcome to test :)"
-}
+const res = require('dotenv').config({path: '../.env'})
+var path    = require('path');
+var nodemailer = require('nodemailer');
+var sgTransport = require('nodemailer-sendgrid-transport');
 
-/*email('welcome', person, function(error, result){
-  console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
-  console.log(result);
-  console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
-})*/
+// username + password
+var options = {
+	auth: {
+		api_user: process.env.SENDGRID_USERNAME,
+		api_key: process.env.SENDGRID_PASSWORD
+	}
+}
+	
+var mailer = nodemailer.createTransport(sgTransport(options));
+
+var email = {
+	to: ['colin.broderick@entsoe.eu'],
+	from: 'agordillodelgado@hotmail.com',
+	subject: 'Hi there',
+	text: 'Awesome sauce',
+	html: '<b>Awesome sauce</b>'
+};
+
+// mailer.sendMail(email, function(err, res) {
+// 	if (err) { 
+// 		console.log(err) 
+// 	}
+// 	console.log(res);
+// });
+mailer.sendMail(email).then((err,res) => {
+            if (err) { 
+                console.log(err) 
+            }
+            console.log(res)
+        })

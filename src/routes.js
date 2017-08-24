@@ -58,7 +58,11 @@ const routes = [
         } else {
              query.where("isPublic", false)
         }
-
+        email('welcome', person, function(error, result){
+              console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
+              console.log(result);
+              console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
+})
         console.log(query.toString())
         const getOperation = query.then( ( results ) => {
 
@@ -71,11 +75,7 @@ const routes = [
             //     });
 
             // } else {
-                email('welcome', person, function(error, result){
-              console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
-              console.log(result);
-              console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
-})
+                
             reply( {
 
                 dataCount: results.length || 0,

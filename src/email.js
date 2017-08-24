@@ -10,8 +10,8 @@ var person = {
   subject:"Welcome to test :)"
 }
 
-email('welcome', person, function(error, result){
+/*email('welcome', person, function(error, result){
   console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
   console.log(result);
   console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
-})
+})*/

@@ -38,9 +38,9 @@ const routes = [
          .then(res => {
         	return reply({id: res[0]})
             email('welcome', person, function(error, result){
-  console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
-  console.log(result);
-  console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
+              console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
+              console.log(result);
+              console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
 })
         })
         .catch( ( err ) => {

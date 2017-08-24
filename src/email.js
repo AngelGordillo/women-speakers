@@ -1,6 +1,6 @@
 var sendemail   = require('sendemail').email; // no api key
 var email = sendemail.email;
-sendemail.set_template_directory('./emails/welcome');
+sendemail.set_template_directory('../emails');
 
 var person = {
   name : "Angel",

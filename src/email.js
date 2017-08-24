@@ -1,5 +1,5 @@
 var sendemail   = require('sendemail').email; // no api key
-var email = sendemail.email;
+
 sendemail.set_template_directory('../emails');
 
 var person = {
@@ -8,8 +8,9 @@ var person = {
   subject:"Welcome to test :)"
 }
 
-email('welcome', person, function(error, result){
+sendemail('welcome', person, function(error, result){
   console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
   console.log(result);
   console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
 })
+export default sendemail;

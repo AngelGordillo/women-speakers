@@ -1,9 +1,8 @@
 var sendemail   = require('sendemail').email; // no api key
 var email = sendemail.email;
-sendemail.set_template_directory('./templates'); // set template directory
-
-
-var person = {
+var dir = __dirname + '/../templates'; // unresolved
+dir = path.resolve(dir);
+sendemail.set_template_directory(dir);
   name : "Angel",
   email: "angel.gordillodelgado@ext.entsoe.eu",
   subject:"Welcome to test :)"

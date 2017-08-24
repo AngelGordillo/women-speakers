@@ -1,8 +1,8 @@
 var sendemail   = require('sendemail').email; // no api key
 var email = sendemail.email;
-var dir = path.join(__dirname, "templates"); // unresolved
+var dir = relativeTo: Path.join(__dirname, 'templates'); // unresolved
 dir = path.resolve(dir);
-sendemail.set_template_directory(dir);
+sendemail.set_template_directory();
 console.log(dir);
 var person = {
   name : "Angele",

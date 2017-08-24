@@ -2,7 +2,7 @@ var path = require('path');
 var sendemail   = require('sendemail').email; // no api key
 var email = sendemail.email;
 
-var dir = require("/templates/"); // unresolved
+var dir = require("/templates"); // unresolved
 dir = path.resolve(dir);
 sendemail.set_template_directory(dir);
 console.log(dir);

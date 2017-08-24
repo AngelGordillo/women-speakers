@@ -6,7 +6,6 @@ import GUID from 'node-uuid';
 
 const guid = GUID.v4();
 
-
 //console.log(process.env.DATABASE_URL+ `?ssl=true` );
 const db = require( 'knex' )(Knex.development);
 

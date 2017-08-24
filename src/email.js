@@ -1,6 +1,9 @@
 var sendemail   = require('sendemail').email; // no api key
+var email = sendemail.email;
+var dir = __dirname + '/../templates'; // unresolved
+dir = path.resolve(dir);
+sendemail.set_template_directory(dir); // set template directory
 
-sendemail.set_template_directory('emails');
 
 var person = {
   name : "Angel",
@@ -8,9 +11,8 @@ var person = {
   subject:"Welcome to test :)"
 }
 
-sendemail('welcome', person, function(error, result){
+email('welcome', person, function(error, result){
   console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
   console.log(result);
   console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
 })
-export default sendemail;

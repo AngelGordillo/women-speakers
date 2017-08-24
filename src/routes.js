@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import GUID from 'node-uuid';
 import Boom from 'boom';
 const db = require( 'knex' )(Knex.development);
-import sendemail from './email';
+
 
 // The idea here is simple: export an array which can be then iterated over and each route can be attached. 
 const routes = [
@@ -58,12 +58,8 @@ const routes = [
         } else {
              query.where("isPublic", false)
         }
-     
-        sendemail('welcome', person, function(error, result){
-              console.log(' - - - - - - - - - - - - - - - - - - - - -> email sent: ');
-              console.log(result);
-              console.log(' - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
-})
+
+        
         console.log(query.toString())
         const getOperation = query.then( ( results ) => {
 

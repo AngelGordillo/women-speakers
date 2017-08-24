@@ -3,6 +3,8 @@ var email = sendemail.email;
 var dir = __dirname + '/../templates'; // unresolved
 dir = path.resolve(dir);
 sendemail.set_template_directory(dir);
+
+var person = {
   name : "Angel",
   email: "angel.gordillodelgado@ext.entsoe.eu",
   subject:"Welcome to test :)"

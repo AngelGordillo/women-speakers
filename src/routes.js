@@ -79,7 +79,11 @@ const routes = [
                     from: 'ardy55@hotmail.com',
                     subject: 'Hi there',
                     text: 'Awesome test',
+<<<<<<< HEAD
                     html: '<b>hiiiii maaaan</b>'
+=======
+                    html: '<b>Awesome test</b>'
+>>>>>>> ffc6ebe676695185ccb3faa50d245005095bb31d
                 };
 
       let mailPromise = new Promise((resolve, reject) => {

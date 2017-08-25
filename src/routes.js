@@ -12,7 +12,7 @@ var options = {
     auth: {
         api_user: process.env.SENDGRID_USERNAME,
         api_key: process.env.SENDGRID_PASSWORD,
-        method: 'PUT',
+
     }
 }
 console.log(options)
@@ -56,6 +56,7 @@ const routes = [
             to: women.email,
             from: 'ENTSOE-EWOMENSPEAKERS@blah.com',
             subject: 'Verify your account ' + women.name,
+            method: 'PUT',
             html: '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">CLICK HERE</a>',
              };
 

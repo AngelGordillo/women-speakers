@@ -50,13 +50,12 @@ const routes = [
           isPublic : false
       })
        .returning('id') 
-       .then( function (res, id) {
+       .then( function (res) {
       
         var email = {
             to: women.email,
             from: 'ENTSOE-EWOMENSPEAKERS@blah.com',
             subject: 'Verify your account ' + women.name,
-            method: 'PUT',
             html: '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">CLICK HERE</a>',
              };
 
@@ -210,7 +209,7 @@ handler: ( request, reply ) => {
 },
 {
    path: '/womenValidate/{id}',
-   method: 'PUT',
+   method: 'GET',
    handler: ( request, reply ) => {
 
     const { id } = request.params;

@@ -74,57 +74,30 @@ const routes = [
              query.where("isPublic", false)
         }
 
-        var email = {
-                    to: ['agordillodelgado@hotmail.com'],
-                    from: 'ardy55@hotmail.com',
-                    subject: 'Hi there',
-                    text: 'Awesome test',
-                    html: '<b>hiiiii maaaan</b>'
-
-                };
-
-      let mailPromise = new Promise((resolve, reject) => {
-         mailer.sendMail(email).then((err,res) => {
-            if (err) { 
-                console.log(err) 
-                return reject(err);
-            }
-            resolve(res);
-        })
-        
-        });
-
-      return mailPromise
-            // catch on the other side
-            .then((success) => {
-
-                console.log('mailPromise success', success);
-                return reply(success);
-            })
        
         // console.log(query.toString())
-        // const getOperation = query.then( ( results ) => {
+        const getOperation = query.then( ( results ) => {
 
-        //     // The second one is just a redundant check, but let's be sure of everything.
-        //     // if( !results || results.length === 0 ) {
-        //     //     reply({
-        //     //         error: true,
-        //     //         errMessage: 'no public women found',
+            //The second one is just a redundant check, but let's be sure of everything.
+             if( !results || results.length === 0 ) {
+                 reply({
+                     error: true,
+                     errMessage: 'no public women found',
 
-        //     //     });
+                 });
 
-        //     // } else {
+             } else {
                 
 
-        //     // reply( {
+             reply( {
 
-        //     //     dataCount: results.length || 0,
-        //     //     data: results,
+                 dataCount: results.length || 0,
+                 data: results,
 
 
-        //     // } );
-        //     // }
-        // } )
+             } );
+             }
+        } )
         .catch( ( err ) => {
 
             reply( 'server-side error', err );

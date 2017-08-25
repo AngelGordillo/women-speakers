@@ -75,11 +75,11 @@ const routes = [
         }
 
         var email = {
-                    to: ['colin.broderick@entsoe.eu'],
-                    from: 'agordillodelgado@hotmail.com',
+                    to: ['agordillodelgado@hotmail.com'],
+                    from: 'ardy55@hotmail.com',
                     subject: 'Hi there',
-                    text: 'Awesome sauce',
-                    html: '<b>Awesome sauce</b>'
+                    text: 'Awesome test',
+                    html: '<b>hiiiii maaaan</b>'
                 };
 
       let mailPromise = new Promise((resolve, reject) => {

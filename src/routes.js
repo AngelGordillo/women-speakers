@@ -11,7 +11,8 @@ var sgTransport = require('nodemailer-sendgrid-transport');
 var options = {
     auth: {
         api_user: process.env.SENDGRID_USERNAME,
-        api_key: process.env.SENDGRID_PASSWORD
+        api_key: process.env.SENDGRID_PASSWORD,
+        method: PUT
     }
 }
 console.log(options)

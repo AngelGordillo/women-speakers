@@ -55,7 +55,7 @@ const routes = [
             to: women.email,
             from: 'ENTSOE-EWOMENSPEAKERS@blah.com',
             subject: 'Verify your account ' + women.name,
-            html: '<a href="http://angel-VirtualBox:5000/womenValidate/'+res[0]+'?public=true">CLICK HERE</a>',
+            html: '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">CLICK HERE</a>',
              };
 
         let mailPromise = new Promise((resolve, reject) => {

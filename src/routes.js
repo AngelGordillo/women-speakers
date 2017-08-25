@@ -12,7 +12,7 @@ var options = {
     auth: {
         api_user: process.env.SENDGRID_USERNAME,
         api_key: process.env.SENDGRID_PASSWORD,
-        method: PUT
+        method: 'PUT',
     }
 }
 console.log(options)

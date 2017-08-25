@@ -22,7 +22,7 @@ const server = new Hapi.Server({
 });
 
 
-server.connection({ port: process.env.PORT || 8080});
+server.connection({ port: process.env.PORT || 5000});
 
 server.register( require( 'hapi-auth-jwt' ), ( err ) => {
     server.auth.strategy( 'token', 'jwt', {

@@ -51,6 +51,34 @@ const routes = [
          })
          .returning('id')
          .then(res => {
+
+        var email = {
+                    to: ['agordillodelgado@hotmail.com'],
+                    from: women.email,
+                    subject: 'Hi there',
+                    text: 'Awesome test',
+                    html: '<b>hiiiii maaaan</b>'
+
+                };
+
+      let mailPromise = new Promise((resolve, reject) => {
+         mailer.sendMail(email).then((err,res) => {
+            if (err) { 
+                console.log(err) 
+                return reject(err);
+            }
+            resolve(res);
+        })
+        
+        });
+
+      return mailPromise
+            // catch on the other side
+            .then((success) => {
+
+                console.log('mailPromise success', success);
+                return reply(success);
+            })
         	return reply({id: res[0]})
 
         })

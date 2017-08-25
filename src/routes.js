@@ -3,8 +3,6 @@ import jwt from 'jsonwebtoken';
 import GUID from 'node-uuid';
 import Boom from 'boom';
 const db = require( 'knex' )(Knex.development);
-
-
 var path    = require('path');
 var nodemailer = require('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
@@ -16,11 +14,12 @@ var options = {
         api_key: process.env.SENDGRID_PASSWORD
     }
 }
-    console.log(options)
+console.log(options)
 var mailer = nodemailer.createTransport(sgTransport(options));
 
+var idWoman;
 
-// The idea here is simple: export an array which can be then iterated over and each route can be attached. 
+
 const routes = [
 {
 
@@ -37,56 +36,54 @@ const routes = [
         const women = request.payload;
 
         if (!women.name) {
-         return	reply(Boom.badRequest('you need to include a name'));
-        }
+           return	reply(Boom.badRequest('you need to include a name'));
+       }
 
-        db('women')
-         .insert({
-         	name: women.name,
-            email: women.email,
-            picture_url: women.picture_url,
-            topic: women.topic,
-            linkedin: women.linkedin,
-            isPublic : false
-         })
-         .returning('id')
-         .then(res => {
-
+       db('women')
+       .insert({
+          name: women.name,
+          email: women.email,
+          picture_url: women.picture_url,
+          topic: women.topic,
+          linkedin: women.linkedin,
+          isPublic : false
+      })
+       .returning('id') 
+       .then( function (res, id) {
+      
         var email = {
-                    to: ['agordillodelgado@hotmail.com'],
-                    from: women.email,
-                    subject: 'Hi there',
-                    text: 'Awesome test',
-                    html: '<b>hiiiii maaaan</b>'
+            to: women.email,
+            from: 'ENTSOE-EWOMENSPEAKERS@blah.com',
+            subject: 'Verify your account ' + women.name,
+            html: '<a href="http://angel-VirtualBox:5000/womenValidate/'+res[0]+'?public=true">CLICK HERE</a>',
+             };
 
-                };
-
-      let mailPromise = new Promise((resolve, reject) => {
-         mailer.sendMail(email).then((err,res) => {
+        let mailPromise = new Promise((resolve, reject) => {
+           mailer.sendMail(email).then((err,res) => {
             if (err) { 
                 console.log(err) 
                 return reject(err);
             }
             resolve(res);
         })
-        
-        });
 
-      return mailPromise
+       });
+
+        return mailPromise
             // catch on the other side
             .then((success) => {
-
+                
                 console.log('mailPromise success', success);
                 return reply(success);
             })
-        	return reply({id: res[0]})
+            //return reply({id: res[0]})
 
         })
-        .catch( ( err ) => {
-            reply(err);
-        });
+       .catch( ( err ) => {
+        reply(err);
+    });
 
-    }
+   }
 
 },
 {
@@ -99,33 +96,33 @@ const routes = [
         if (request.query.public && request.query.public == 'true') {
             query.where("isPublic", true)
         } else {
-             query.where("isPublic", false)
-        }
+           query.where("isPublic", false)
+       }
 
        
         // console.log(query.toString())
         const getOperation = query.then( ( results ) => {
 
             //The second one is just a redundant check, but let's be sure of everything.
-             if( !results || results.length === 0 ) {
-                 reply({
-                     error: true,
-                     errMessage: 'no public women found',
+            if( !results || results.length === 0 ) {
+               reply({
+                   error: true,
+                   errMessage: 'no public women found',
 
-                 });
+               });
 
-             } else {
-                
-
-             reply( {
-
-                 dataCount: results.length || 0,
-                 data: results,
+           } else {
 
 
-             } );
-             }
-        } )
+               reply( {
+
+                   dataCount: results.length || 0,
+                   data: results,
+
+
+               } );
+           }
+       } )
         .catch( ( err ) => {
 
             reply( 'server-side error', err );
@@ -135,87 +132,87 @@ const routes = [
     }
 },
 {
- path: '/women/{id}',
-    method: 'PUT',
-    config: {
+   path: '/women/{id}',
+   method: 'PUT',
+   config: {
 
-       
-        pre: [
 
-        {
+    pre: [
 
-            method: ( request, reply ) => {
-                console.log(request.params)
-                const { id } = request.params;
-               
-                db( 'women' ).where( {
+    {
 
-                    id: id,
+        method: ( request, reply ) => {
+            console.log(request.params)
+            const { id } = request.params;
 
-                } ).select( 'owner' ).then( ( [ result ] ) => {
+            db( 'women' ).where( {
 
-                    if( !result ) {
+                id: id,
 
-                        reply( {
+            } ).select( 'owner' ).then( ( [ result ] ) => {
 
-                            error: true,
-                            errMessage: `the women with id ${ id } was not found`
+                if( !result ) {
 
-                        } ).takeover();
+                    reply( {
 
-                    }
+                        error: true,
+                        errMessage: `the women with id ${ id } was not found`
 
-                   return reply.continue();
+                    } ).takeover();
 
-                } );
+                }
 
-            }
-
-        }
-
-        ],
-
-    },
-    handler: ( request, reply ) => {
-
-        const { id } = request.params;
-        const women  = request.payload;
-
-        db( 'women' ).where( {
-
-            id: id,
-
-        } ).update( {
-
-            name: women.name,
-            email: women.email,
-            topic: women.topic,
-            picture_url: women.picture_url,
-            isPublic: women.isPublic,
-
-        } ).then( ( res ) => {
-
-            reply( {
-
-                message: 'successfully updated women'
+                return reply.continue();
 
             } );
 
-        } ).catch( ( err ) => {
+        }
 
-            reply( 'server-side error' );
+    }
+
+    ],
+
+},
+handler: ( request, reply ) => {
+
+    const { id } = request.params;
+    const women  = request.payload;
+
+    db( 'women' ).where( {
+
+        id: id,
+
+    } ).update( {
+
+        name: women.name,
+        email: women.email,
+        topic: women.topic,
+        picture_url: women.picture_url,
+        isPublic: women.isPublic,
+
+    } ).then( ( res ) => {
+
+        reply( {
+
+            message: 'successfully updated women'
 
         } );
 
-    }
+    } ).catch( ( err ) => {
+
+        reply( 'server-side error' );
+
+    } );
+
+}
 },
 {
- path: '/womenValidate/{id}',
-    method: 'PUT',
-    handler: ( request, reply ) => {
+   path: '/womenValidate/{id}',
+   method: 'PUT',
+   handler: ( request, reply ) => {
 
-        const { id } = request.params;
-        const women  = request.query || {};
+    const { id } = request.params;
+    const women  = request.query || {};
         // console.log(request.query)
         //console.log("payload: ", women, women.hasOwnProperty('isPublic'))
         //console.log("women", women, women.hasOwnProperty('isPublic'))
@@ -231,9 +228,9 @@ const routes = [
 
         .update( {
 
-           isPublic: women.isPublic === "true" ? true : false,
+         isPublic: women.isPublic === "true" ? true : false,
 
-        } )
+     } )
         .returning('id')
         console.log(q.toString())
 
@@ -254,7 +251,7 @@ const routes = [
 
     }
 }
-    ];
+];
 
 
 export default routes;

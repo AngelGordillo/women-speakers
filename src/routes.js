@@ -228,7 +228,7 @@ handler: ( request, reply ) => {
 
         .update( {
 
-         isPublic: women.isPublic === "true" ? true : false,
+         isPublic: women.isPublic === "true" ? true : true,
 
      } )
         .returning('id')

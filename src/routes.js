@@ -56,7 +56,7 @@ const routes = [
             to: women.email,
             from: 'ENTSOE-EWOMENSPEAKERS@blah.com',
             subject: 'Verify your account ' + women.name,
-            html: '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">CLICK HERE</a>',
+            html: '<p> If you want to be part of this data base click in ACCEPT, otherwise click n DELETE for delete your account </p>' + '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">ACCEPT</a>' + '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenDelete/'+res[0]+'">DELETE</a>',
              };
 
         let mailPromise = new Promise((resolve, reject) => {
@@ -92,17 +92,17 @@ const routes = [
     path: '/women',
     handler: ( request, reply ) => {
         const query = db( 'women' ).select( '*' )
-        //.where("isPublic", true);
+        .where("isPublic", false);
 
-        if (request.query.public && request.query.public == 'true') {
+     /*   if (request.query.public && request.query.public == 'true') {
             query.where("isPublic", true)
         } else {
            query.where("isPublic", false)
        }
-
+*/
        
         // console.log(query.toString())
-        const getOperation = query.then( ( results ) => {
+        query.then( ( results ) => {
 
             //The second one is just a redundant check, but let's be sure of everything.
             if( !results || results.length === 0 ) {
@@ -241,6 +241,47 @@ handler: ( request, reply ) => {
                 res: res,
                 id: res[0],
                 message: 'successfully updated women'
+
+            } )
+
+        } ).catch( ( err ) => {
+
+            reply( err);
+
+        } );
+
+    }
+},
+{
+   path: '/womenDelete/{id}',
+   method: 'GET',
+   handler: ( request, reply ) => {
+
+    const { id } = request.params;
+    const women  = request.query || {};
+        // console.log(request.query)
+        //console.log("payload: ", women, women.hasOwnProperty('isPublic'))
+        //console.log("women", women, women.hasOwnProperty('isPublic'))
+        if (!request.query) {
+            return reply(Boom.badRequest('bad'));
+        }
+        
+        let q = db( 'women' ).where( {
+
+            id: id,
+
+        } )
+
+        .del()
+        .returning('id')
+        console.log(q.toString())
+
+        q.then( ( res ) => {
+
+            reply( {
+                res: res,
+                id: res[0],
+                message: 'successfully deleted women'
 
             } )
 

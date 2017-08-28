@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
         // Primary Key
         //womenTable.increments();
         womenTable.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
-        womenTable.uuid( 'owner', 36 ).references( 'id' ).inTable( 'users' );
+        //womenTable.uuid( 'owner', 36 ).references( 'id' ).inTable( 'users' );
 
         // Data
         // Each chainable method creates a column of the given type with the chained constraints. For example, in the line below, we create a column named `name` which has a maximum length of 250 characters, is of type string (VARCHAR) and is not nullable. 

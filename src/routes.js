@@ -92,14 +92,14 @@ const routes = [
     path: '/women',
     handler: ( request, reply ) => {
         const query = db( 'women' ).select( '*' )
-        .where("isPublic", false);
+        //.where("isPublic", false);
 
-     /*   if (request.query.public && request.query.public == 'true') {
+        if (request.query.public && request.query.public == 'true') {
             query.where("isPublic", true)
         } else {
            query.where("isPublic", false)
        }
-*/
+
        
         // console.log(query.toString())
         query.then( ( results ) => {

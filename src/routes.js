@@ -56,7 +56,7 @@ const routes = [
             to: women.email,
             from: 'ENTSOE-EWOMENSPEAKERS@blah.com',
             subject: 'Verify your account ' + women.name,
-            html: '<p> If you want to be part of this data base click in ACCEPT, otherwise click n DELETE for delete your account </p>' + '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">ACCEPT</a>' + '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenDelete/'+res[0]+'">DELETE</a>',
+            html: '<p> If you want to be part of this data base click in ACCEPT, otherwise click n DELETE for delete your account </p>' + '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">ACCEPT</a> ' + ' <a href="https://tranquil-lowlands-85919.herokuapp.com/womenDelete/'+res[0]+'">DELETE</a>',
              };
 
         let mailPromise = new Promise((resolve, reject) => {

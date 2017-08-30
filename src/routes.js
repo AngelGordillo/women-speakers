@@ -56,7 +56,7 @@ const routes = [
             to: women.email,
             from: 'ENTSOE-EWOMENSPEAKERS@blah.com',
             subject: 'Verify your account ' + women.name,
-            html: '<p> If you want to be part of this data base click in ACCEPT, otherwise click n DELETE for delete your account </p>' + '<a href="https://tranquil-lowlands-85919.herokuapp.com/womenValidate/'+res[0]+'?public=true">ACCEPT</a> ' + ' <a href="https://tranquil-lowlands-85919.herokuapp.com/womenDelete/'+res[0]+'">DELETE</a>',
+            html: '<p> Go to activate or delete your account (more details)</p>' + '<a href="https://driver-visitors-40426.netlify.com/activateAccount?'+res[0]+'">GO</a> ',
              };
 
         let mailPromise = new Promise((resolve, reject) => {
@@ -189,6 +189,7 @@ handler: ( request, reply ) => {
         email: women.email,
         topic: women.topic,
         picture_url: women.picture_url,
+        linkedin: women.linkedin,
         isPublic: women.isPublic,
 
     } ).then( ( res ) => {

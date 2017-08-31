@@ -45,7 +45,7 @@ const routes = [
           name: women.name,
           email: women.email,
           picture_url: women.picture_url,
-          topic: women.topic,
+          topic: women.topic.toString(),
           linkedin: women.linkedin,
           isPublic : false
       })

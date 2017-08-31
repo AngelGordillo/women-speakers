@@ -226,7 +226,7 @@ handler: ( request, reply ) => {
 
         name: women.name,
         email: women.email,
-        topic: women.topic,
+        topic: women.topic.toString(),
         picture_url: women.picture_url,
         linkedin: women.linkedin,
         isPublic: women.isPublic,

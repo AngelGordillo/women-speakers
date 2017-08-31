@@ -294,7 +294,7 @@ handler: ( request, reply ) => {
 },
 {
    path: '/womenDelete/{id}',
-   method: 'GET',
+   method: 'delete',
    handler: ( request, reply ) => {
 
     const { id } = request.params;

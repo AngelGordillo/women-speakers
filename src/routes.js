@@ -133,6 +133,45 @@ const routes = [
     }
 },
 {
+    method: 'GET',
+    path: '/women/{id}',
+    handler: ( request, reply ) => {
+      const { id } = request.params;
+        const query = db( 'women' ).select( '*' ).where({id: id});
+
+       
+        // console.log(query.toString())
+        query.then( ( results ) => {
+
+            //The second one is just a redundant check, but let's be sure of everything.
+            if( !results || results.length === 0 ) {
+               reply({
+                   error: true,
+                   errMessage: 'no public women found',
+
+               });
+
+           } else {
+
+
+               reply( {
+
+                   dataCount: results.length || 0,
+                   data: results,
+
+
+               } );
+           }
+       } )
+        .catch( ( err ) => {
+
+            reply( 'server-side error', err );
+
+        } );
+
+    }
+},
+{
    path: '/women/{id}',
    method: 'PUT',
    config: {

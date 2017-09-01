@@ -12,7 +12,8 @@ exports.up = function(knex, Promise) {
         // Each chainable method creates a column of the given type with the chained constraints. For example, in the line below, we create a column named `name` which has a maximum length of 250 characters, is of type string (VARCHAR) and is not nullable. 
         //womenTable.string( 'guid', 36 ).unique();
         womenTable.string( 'name', 250 );
-        womenTable.string( 'email', 250 );
+        womenTable.string( 'surname', 250 );
+        womenTable.string( 'email', 250 ).unique();
         womenTable.string( 'picture_url', 250 );
         womenTable.string( 'topic', 250 );
         womenTable.string( 'linkedin', 250 );

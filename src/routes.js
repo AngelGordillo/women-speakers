@@ -1,3 +1,4 @@
+import Hapi from 'hapi';
 import Knex from '../knexfile';
 import jwt from 'jsonwebtoken';
 import GUID from 'node-uuid';
@@ -6,7 +7,44 @@ const db = require( 'knex' )(Knex.development);
 var path    = require('path');
 var nodemailer = require('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
+const server = new Hapi.Server({
+  connections: {
+    routes: {
+      cors: {
+        origin: ['*'],
+        additionalHeaders: ['x-requested-with']
+      }
+    }
+  }
+});
 
+const db = require('knex')({
+  client: 'pg',
+  connection: process.env.DATABASE_URL,
+  migrations: {
+    tableName: 'migrations'
+  }
+});
+
+server.connection({port: process.env.PORT});
+
+server.register(require('hapi-auth-jwt2'), function (err) {
+  server.auth.strategy('jwt', 'jwt', {
+    key: new Buffer(process.env.AUTH0_SECRET, 'base64') ,
+    validateFunc: function (decoded, request, callback) {
+      if (decoded) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
+    },
+    verifyOptions: {
+      algorithms: ['HS256'],
+      audience: process.env.AUTH0_CLIENT_IDE
+    }
+  });
+
+  server.auth.default('jwt');
 // username + password
 var options = {
     auth: {
@@ -21,17 +59,11 @@ var mailer = nodemailer.createTransport(sgTransport(options));
 var idWoman;
 
 
-const routes = [
-{
+/*server.route({
+
 
     path: '/women',
     method: 'POST',
-/*    config: {
-        auth: {
-            strategy: 'token',
-        }
-    },*/
-
     handler: ( request, reply ) => {
         //console.log(request.auth);
         const women = request.payload;
@@ -86,10 +118,11 @@ const routes = [
 
    }
 
-},
-{
+});*/
+server.route({
     method: 'GET',
     path: '/women',
+
     handler: ( request, reply ) => {
         const query = db( 'women' ).select( '*' )
         //.where("isPublic", false);
@@ -131,8 +164,8 @@ const routes = [
         } );
 
     }
-},
-{
+});
+/*server.route({
     method: 'GET',
     path: '/women/{id}',
     handler: ( request, reply ) => {
@@ -170,49 +203,11 @@ const routes = [
         } );
 
     }
-},
-{
+});
+server.route({
    path: '/women/{id}',
    method: 'PUT',
-   config: {
-
-
-    pre: [
-
-    {
-
-        method: ( request, reply ) => {
-            console.log(request.params)
-            const { id } = request.params;
-
-            db( 'women' ).where( {
-
-                id: id,
-
-            } ).select( 'owner' ).then( ( [ result ] ) => {
-
-                if( !result ) {
-
-                    reply( {
-
-                        error: true,
-                        errMessage: `the women with id ${ id } was not found`
-
-                    } ).takeover();
-
-                }
-
-                return reply.continue();
-
-            } );
-
-        }
-
-    }
-
-    ],
-
-},
+   
 handler: ( request, reply ) => {
 
     const { id } = request.params;
@@ -245,9 +240,9 @@ handler: ( request, reply ) => {
 
     } );
 
-}
-},
-{
+  }
+});
+server.route({
    path: '/womenValidate/{id}',
    method: 'GET',
    handler: ( request, reply ) => {
@@ -291,8 +286,8 @@ handler: ( request, reply ) => {
         } );
 
     }
-},
-{
+});
+server.route({
    path: '/womenDelete/{id}',
    method: 'delete',
    handler: ( request, reply ) => {
@@ -332,8 +327,5 @@ handler: ( request, reply ) => {
         } );
 
     }
-}
-];
+});*/
 
-
-export default routes;
